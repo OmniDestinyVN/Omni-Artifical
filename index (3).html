@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Omni Artifical</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --line: #262b35;
+    --text: #e7e9ee;
+    --muted: #8b93a3;
+    --accent: #5eead4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 64px 24px 80px;
+  }
+  header {
+    margin-bottom: 48px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 38px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  header p {
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .list {
+    display: grid;
+    gap: 14px;
+  }
+  .card {
+    display: block;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 22px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .card-name {
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .card-desc {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .card-path {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--accent);
+    font-family: ui-monospace, Menlo, monospace;
+  }
+  .empty {
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    padding: 22px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  footer {
+    margin-top: 56px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Omni Artifical</div>
+      <h1>Kho công cụ HTML, mỗi cái một việc.</h1>
+      <p>Đây là nơi chứa nhiều trang web độc lập, mỗi thư mục là một công cụ phục vụ một mục đích riêng. Chọn một công cụ bên dưới để bắt đầu.</p>
+    </header>
+
+    <div class="list">
+      <a class="card" href="./IELTS%20Lab/">
+        <div class="card-name">IELTS Writing Simulator</div>
+        <div class="card-desc">Mô phỏng phòng thi IELTS Writing trên máy tính: 2 sheet Task 1 / Task 2, đếm giờ, đếm từ, nhập đề song song.</div>
+        <div class="card-path">/IELTS Lab/</div>
+      </a>
+
+      <!--
+        Thêm công cụ mới: tạo thư mục riêng (vd /ten-cong-cu/index.html)
+        rồi thêm 1 thẻ <a class="card"> mới ở đây.
+      -->
+    </div>
+
+    <footer>Cập nhật thường xuyên khi có công cụ mới.</footer>
+  </div>
+</body>
+</html>
