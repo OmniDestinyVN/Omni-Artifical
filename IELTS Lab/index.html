@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Computer Writing Template</title>
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --panel: #ffffff;
+      --line: #d8e0ea;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0f172a;
+      --accent-2: #10b981;
+      --danger: #dc2626;
+      --warn-bg: #d97706;
+      --soft: #f8fafc;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 18px;
+    }
+
+    .container {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .title p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .badge {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      min-width: 240px;
+    }
+
+    .badge .kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .badge .value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .badge .sub {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .panel-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .sheet-switcher {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .sheet-btn {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: .18s ease;
+    }
+
+    .sheet-btn:hover { transform: translateY(-1px); border-color: #c9d5e2; }
+    .sheet-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+    }
+
+    .sheet-btn .name { font-size: 15px; font-weight: 700; }
+    .sheet-btn .meta { font-size: 12px; opacity: .78; margin-top: 4px; }
+
+    .timer-box {
+      border-radius: 18px;
+      padding: 16px;
+      color: white;
+      background: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .timer-box.over {
+      background: var(--danger);
+    }
+
+    .timer-box.low-time {
+      background: var(--warn-bg);
+    }
+
+    .timer-label { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; opacity: .8; }
+    .timer-value { font-size: 44px; line-height: 1; font-weight: 800; margin-top: 8px; font-variant-numeric: tabular-nums; }
+    .timer-sub { margin-top: 8px; font-size: 14px; opacity: .92; }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .18s ease;
+      font-size: 14px;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn.start { background: var(--accent-2); color: white; }
+    .btn.pause { background: #e2e8f0; color: var(--text); }
+    .btn.reset { background: #e2e8f0; color: var(--text); }
+    .btn.save { background: var(--accent); color: white; }
+
+    .stat {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .count {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+
+    .ok { color: var(--accent-2); }
+    .warn { color: var(--text); }
+    .danger { color: var(--danger); }
+
+    .info {
+      margin-top: 14px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      color: #475569;
+      font-size: 13px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 16px;
+    }
+
+    .block {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .block-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .block-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .pill {
+      background: #e2e8f0;
+      color: #334155;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .prompt-label,
+    .answer-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 18px;
+      padding: 14px;
+      font-size: 15px;
+      line-height: 1.7;
+      outline: none;
+      resize: vertical;
+      background: white;
+      color: var(--text);
+      transition: .18s ease;
+      min-height: 140px;
+    }
+
+    textarea:focus { border-color: #0f172a; box-shadow: 0 0 0 4px rgba(15,23,42,.06); }
+
+    .prompt-box { min-height: 280px; }
+    .answer-box { min-height: 640px; }
+
+    .footer-note {
+      margin-top: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      color: #475569;
+      font-size: 14px;
+    }
+
+    .footer-note strong { color: var(--text); }
+
+    @media (max-width: 1180px) {
+      .grid, .workspace { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="container">
+      <div class="topbar">
+        <div class="title">
+          <h1>IELTS Computer Writing Template</h1>
+          <p>Mô phỏng kiểu thi trên máy: Task 1 / Task 2 riêng, timer, word count, cảnh báo đỏ khi quá giờ, và có ô nhập đề.</p>
+        </div>
+        <div class="badge">
+          <div class="kicker">Current task</div>
+          <div class="value" id="currentTaskLabel">Writing Task 1</div>
+          <div class="sub">Target: <span id="targetWordsText">150</span>+ words</div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <aside class="panel">
+          <div class="panel-title">Sheets</div>
+          <div class="sheet-switcher">
+            <button class="sheet-btn active" id="task1Btn" onclick="switchTask('task1')">
+              <div class="name">Writing Task 1</div>
+              <div class="meta">20 minutes · visual summary</div>
+            </button>
+            <button class="sheet-btn" id="task2Btn" onclick="switchTask('task2')">
+              <div class="name">Writing Task 2</div>
+              <div class="meta">40 minutes · essay</div>
+            </button>
+          </div>
+
+          <div id="timerBox" class="timer-box">
+            <div class="timer-label">Elapsed</div>
+            <div id="timerValue" class="timer-value">00:00</div>
+            <div id="timerSub" class="timer-sub">Limit: 20:00 · Remaining 20:00</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn start" id="startBtn" onclick="startTimer()">Start</button>
+            <button class="btn pause" id="pauseBtn" onclick="pauseTimer()" disabled>Pause</button>
+            <button class="btn reset" onclick="resetTimer()">Reset</button>
+            <button class="btn save" onclick="saveMock()">Save</button>
+          </div>
+
+          <div class="stat">
+            <div class="stat-row">
+              <span>Word count</span>
+              <span id="wordCount" class="count warn">0</span>
+            </div>
+            <div style="margin-top:6px; font-size:12px; color:#64748b;">Target: <span id="targetWordsInline">150+</span></div>
+          </div>
+
+          <div class="info" id="statusBox">Press Start to begin timing your answer.</div>
+        </aside>
+
+        <main class="workspace">
+          <section class="block">
+            <div class="block-head">
+              <div>
+                <h2>Prompt area</h2>
+                <div class="prompt-label">Paste / type the IELTS prompt here</div>
+              </div>
+              <div class="pill" id="promptHint">Open side-by-side while writing</div>
+            </div>
+
+            <div class="prompt-label">Prompt input</div>
+            <textarea id="promptInput" class="prompt-box" placeholder="Nhập đề IELTS Task 1 / Task 2 ở đây..."></textarea>
+
+            <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+              <button class="btn pause" onclick="loadPromptToDisplay()">Load prompt</button>
+              <button class="btn reset" onclick="clearPrompt()">Clear prompt</button>
+            </div>
+
+            <div class="info">
+              <strong>What is simulated:</strong> 2 sheet riêng, start timer, word count, đỏ khi lố giờ, nhập đề bên cạnh, save/reset cơ bản. Không mô phỏng spellcheck hoặc các giới hạn bảo mật của phòng thi thật.
+            </div>
+          </section>
+
+          <section class="block">
+            <div class="block-head">
+              <div>
+                <h2>Answer box</h2>
+                <div class="answer-label">Type your answer here</div>
+              </div>
+              <div class="pill" id="timePill">20 minutes on this sheet</div>
+            </div>
+
+            <div class="answer-label">Writing area</div>
+            <textarea id="answerBox" class="answer-box" placeholder="Start typing your IELTS answer here..."></textarea>
+
+            <div style="display:flex; justify-content:space-between; gap:12px; margin-top:12px; flex-wrap:wrap; color:#64748b; font-size:14px;">
+              <div id="overtimeText">Status: <span class="ok">Within time</span></div>
+              <div>
+                <span>Elapsed: <strong id="elapsedText">00:00</strong></span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span>Remaining: <strong id="remainingText">20:00</strong></span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <span id="extraText"></span>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <div class="footer-note">
+        <strong>Note:</strong> Đây là file HTML local để luyện gõ trên máy. Nếu muốn mình có thể làm tiếp bản giống giao diện thi thật hơn: tối giản hơn, giống Excel hơn, hoặc thêm phần prompt tách riêng cho Task 1 / Task 2.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TASKS = {
+      task1: { label: "Writing Task 1", limitMinutes: 20, targetWords: 150 },
+      task2: { label: "Writing Task 2", limitMinutes: 40, targetWords: 250 },
+    };
+
+    // Mỗi task có state riêng: đề bài, bài viết, thời gian, trạng thái
+    const state = {
+      task1: { prompt: "", answer: "", elapsed: 0, running: false, completed: false },
+      task2: { prompt: "", answer: "", elapsed: 0, running: false, completed: false },
+    };
+
+    let activeTask = "task1";
+    let flashSaveTimer = null;
+    let intervalId = null;
+    let warnedLowTime = false;
+
+    const els = {
+      task1Btn: document.getElementById("task1Btn"),
+      task2Btn: document.getElementById("task2Btn"),
+      currentTaskLabel: document.getElementById("currentTaskLabel"),
+      targetWordsText: document.getElementById("targetWordsText"),
+      targetWordsInline: document.getElementById("targetWordsInline"),
+      timerBox: document.getElementById("timerBox"),
+      timerValue: document.getElementById("timerValue"),
+      timerSub: document.getElementById("timerSub"),
+      wordCount: document.getElementById("wordCount"),
+      statusBox: document.getElementById("statusBox"),
+      startBtn: document.getElementById("startBtn"),
+      pauseBtn: document.getElementById("pauseBtn"),
+      promptInput: document.getElementById("promptInput"),
+      answerBox: document.getElementById("answerBox"),
+      promptHint: document.getElementById("promptHint"),
+      timePill: document.getElementById("timePill"),
+      overtimeText: document.getElementById("overtimeText"),
+      elapsedText: document.getElementById("elapsedText"),
+      remainingText: document.getElementById("remainingText"),
+      extraText: document.getElementById("extraText"),
+    };
+
+    function formatTime(totalSeconds) {
+      const s = Math.max(0, Math.floor(totalSeconds));
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+    }
+
+    function wordCount(text) {
+      const words = text.trim().match(/\S+/g);
+      return words ? words.length : 0;
+    }
+
+    function render() {
+      const task = TASKS[activeTask];
+      const s = state[activeTask];
+      const limitSeconds = task.limitMinutes * 60;
+      const remaining = limitSeconds - s.elapsed;
+      const overtime = Math.max(0, s.elapsed - limitSeconds);
+      const isOver = overtime > 0;
+      const isLowTime = !isOver && remaining <= 120 && remaining > 0;
+      const words = wordCount(els.answerBox.value || "");
+      const meetsTarget = words >= task.targetWords;
+
+      els.currentTaskLabel.textContent = task.label;
+      els.targetWordsText.textContent = task.targetWords;
+      els.targetWordsInline.textContent = `${task.targetWords}+`;
+      els.timePill.textContent = `${task.limitMinutes} minutes on this sheet`;
+      els.timerValue.textContent = formatTime(s.elapsed);
+      els.elapsedText.textContent = formatTime(s.elapsed);
+      els.remainingText.textContent = formatTime(remaining);
+      els.wordCount.textContent = words;
+      els.wordCount.className = `count ${meetsTarget ? "ok" : "warn"}`;
+
+      els.timerBox.classList.toggle("over", isOver);
+      els.timerBox.classList.toggle("low-time", isLowTime);
+      els.timerSub.innerHTML = `Limit: ${task.limitMinutes}:00 · ${isOver ? `<span class="danger">Lố ${formatTime(overtime)}</span>` : `Remaining ${formatTime(remaining)}`}`;
+
+      if (isOver) {
+        els.overtimeText.innerHTML = `Status: <span class="danger"><strong>Over time</strong></span>`;
+        els.extraText.innerHTML = `<span class="danger"><strong>+${formatTime(overtime)}</strong></span>`;
+      } else if (isLowTime) {
+        els.overtimeText.innerHTML = `Status: <span class="danger"><strong>Sắp hết giờ</strong></span>`;
+        els.extraText.innerHTML = "";
+      } else {
+        els.overtimeText.innerHTML = `Status: <span class="ok"><strong>Within time</strong></span>`;
+        els.extraText.innerHTML = "";
+      }
+
+      els.startBtn.disabled = s.running || s.completed;
+      els.pauseBtn.disabled = !s.running;
+
+      const prompt = els.promptInput.value.trim();
+      els.promptHint.textContent = prompt ? (prompt.length > 60 ? prompt.slice(0, 60) + "..." : prompt) : "Open side-by-side while writing";
+      document.title = `${task.label} • ${formatTime(s.elapsed)}`;
+    }
+
+    function startTimer() {
+      const s = state[activeTask];
+      if (!s.running && !s.completed) {
+        s.running = true;
+        intervalId = window.setInterval(() => {
+          s.elapsed += 1;
+          const limitSeconds = TASKS[activeTask].limitMinutes * 60;
+          const remaining = limitSeconds - s.elapsed;
+          if (remaining <= 120 && remaining > 0 && !warnedLowTime) {
+            warnedLowTime = true;
+            els.statusBox.innerHTML = `Còn khoảng 2 phút — bắt đầu rà soát và hoàn thiện bài viết.`;
+          }
+          render();
+        }, 1000);
+        els.statusBox.innerHTML = `Timer is running.`;
+        render();
+      }
+    }
+
+    function pauseTimer() {
+      const s = state[activeTask];
+      s.running = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      els.statusBox.innerHTML = `Timer paused.`;
+      render();
+    }
+
+    function resetTimer() {
+      const s = state[activeTask];
+      s.running = false;
+      s.completed = false;
+      s.elapsed = 0;
+      warnedLowTime = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      els.statusBox.innerHTML = `Timer reset.`;
+      render();
+      flashSave();
+    }
+
+    function saveMock() {
+      const s = state[activeTask];
+      s.completed = true;
+      s.running = false;
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      els.statusBox.innerHTML = `Đã đánh dấu hoàn thành. Lưu ý: đây chỉ là mockup, bài viết KHÔNG được lưu vào file — hãy tự copy nội dung nếu cần giữ lại.`;
+      flashSave();
+      render();
+    }
+
+    function flashSave() {
+      const prev = els.statusBox.innerHTML;
+      els.statusBox.innerHTML = `${prev} <div style="margin-top:6px; color:#047857; font-weight:700;">Action saved.</div>`;
+      clearTimeout(flashSaveTimer);
+      flashSaveTimer = setTimeout(() => render(), 900);
+    }
+
+    function switchTask(nextTask) {
+      if (nextTask === activeTask) return;
+
+      // Lưu nội dung hiện tại vào state trước khi chuyển
+      state[activeTask].prompt = els.promptInput.value;
+      state[activeTask].answer = els.answerBox.value;
+
+      // Dừng timer đang chạy khi rời sheet (không tự reset thời gian đã tích luỹ)
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      state[activeTask].running = false;
+
+      activeTask = nextTask;
+      warnedLowTime = false;
+
+      // Khôi phục nội dung riêng của task vừa chọn
+      els.promptInput.value = state[activeTask].prompt;
+      els.answerBox.value = state[activeTask].answer;
+
+      els.task1Btn.classList.toggle("active", nextTask === "task1");
+      els.task2Btn.classList.toggle("active", nextTask === "task2");
+      els.statusBox.innerHTML = `Đã chuyển sang ${TASKS[nextTask].label}. Bài viết và đề bài của mỗi task được lưu riêng.`;
+      render();
+    }
+
+    function loadPromptToDisplay() {
+      state[activeTask].prompt = els.promptInput.value;
+      els.statusBox.innerHTML = `Prompt loaded.`;
+      render();
+    }
+
+    function clearPrompt() {
+      els.promptInput.value = "";
+      state[activeTask].prompt = "";
+      els.statusBox.innerHTML = `Prompt cleared.`;
+      render();
+    }
+
+    els.answerBox.addEventListener("input", () => {
+      state[activeTask].answer = els.answerBox.value;
+      render();
+    });
+
+    els.promptInput.addEventListener("input", () => {
+      state[activeTask].prompt = els.promptInput.value;
+      render();
+    });
+
+    window.switchTask = switchTask;
+    window.startTimer = startTimer;
+    window.pauseTimer = pauseTimer;
+    window.resetTimer = resetTimer;
+    window.saveMock = saveMock;
+    window.loadPromptToDisplay = loadPromptToDisplay;
+    window.clearPrompt = clearPrompt;
+
+    render();
+  </script>
+</body>
+</html>
